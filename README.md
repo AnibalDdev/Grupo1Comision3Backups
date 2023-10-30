@@ -5,13 +5,13 @@ Alumnos:  Tomas Emanuel Almada
           Maria Agustina Rodriguez
           Marcos Lautaro Romero
           Maria Cecilia Romero
-
-
-
+          
 
 # Introduccion
 
-El componente Copia de seguridad y restauración de SQL Server proporciona una protección fundamental para proteger los datos críticos almacenados en las bases de datos de SQL Server. Para minimizar el riesgo de una pérdida de datos catastrófica, debe realizar de forma periódica copias de seguridad de las bases de datos para conservar las modificaciones realizadas en los datos. Una estrategia bien diseñada de copia de seguridad y restauración le ayuda a proteger las bases de datos frente a la pérdida de datos provocada por diversos errores. Pruebe su estrategia con la restauración de un conjunto de copias de seguridad y, después, recupere la base de datos para prepararse para dar una respuesta eficaz en caso de desastre.
+En un entorno donde los datos son el activo más valioso, tanto para empresas como para usuarios individuales, la necesidad de proteger la información contra pérdidas accidentales, ataques cibernéticos o fallos de hardware se ha vuelto imperativo en el mundo de la informática. La importancia de  las copias de seguridad (backup) y la capacidad de restauración (restore) son los temas que se van abordar en este documento. 
+
+La copia de seguridad y la capacidad de restauración proporcionan una protección fundamental sobre la información de los usuarios, ya sea a nivel personal o empresarial de sus bases de datos. Para minimizar el riesgo de una pérdida de datos catastrófica, se debe realizar de forma periódica copias de seguridad de las bases de datos para conservar las modificaciones realizadas en los mismos. Una estrategia bien diseñada de copia de seguridad y restauración ayuda a proteger las bases de datos frente a la pérdida de datos provocada por diversos errores.
 
 
 # Modos de recuperacion de las bases de datos 
