@@ -7,12 +7,12 @@
 
 SELECT name, recovery_model_desc
 FROM sys.databases
-WHERE name = 'master';
+WHERE name = 'miBaseDeDatos';
 
 
 --Cambiar modo de almacenamieto
 
-USE master; -- Asegúrate de estar en el contexto de la base de datos master
+USE master; -- AsegÃºrate de estar en el contexto de la base de datos master
 ALTER DATABASE miBaseDeDatos
 SET RECOVERY Modo-de-recuperacion
 
