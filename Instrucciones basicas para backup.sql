@@ -39,5 +39,20 @@ WITH REPLACE, RECOVERY;
 -- Restaurar un archivo de registro de transacciones
 RESTORE LOG MiBaseDeDatos
 FROM DISK = 'C:\Ruta\Para\El\Archivo\LogBackup.trn'
-WITH RECOVERY;
+WITH NORECOVERY; --Indica que la base de datos se dejará en un estado de recuperación no completa, esto te permite restaurar copias de seguridad adicionales. 
+
+/*
+
+Después de restaurar un archivo de registro de transacciones utiliza WITH NORECOVERY,
+puedes continuar restaurando copias de seguridad adicionales,si es necesario.
+Una vez que hayas restaurado todas las copias de seguridad necesarias, 
+puedes ejecutar un comando RESTORE DATABASE al final con WITH RECOVERY para completar la restauración y poner la base de datos en línea.
+
+*/
+
+RESTORE LOG MiBaseDeDatos
+FROM DISK = 'C:\Ruta\Para\El\Archivo\OtroArchivoLog.trn'
+WITH RECOVERY; --Indica que la base de datos se dejará en un estado de recuperación completa  y permitirá que la base de datos esté disponible para su uso normal. 
+
+
 
