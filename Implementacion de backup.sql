@@ -127,13 +127,15 @@ select * from gasto
 
 ----- Implementacion de Transacciones y Transacciones Anidadas
 
+	
 
 
 
 
 
 
------ Indices Columnares en SQL Server 
+
+----- Implementacion de Indices Columnares en SQL Server 
 
 
 
@@ -212,6 +214,13 @@ FROM (
     FROM gasto
 ) AS Subquery
 WHERE RowNumber BETWEEN 1 AND 1000000;
+
+
+
+--- Pruebas 
+
+
+
 
 
 
