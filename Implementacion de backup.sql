@@ -10,7 +10,7 @@ WHERE name = 'base_consorcio';
 
 -- 2 cambiamos el modo de recuperacion
 
-USE master; -- Asegúrate de estar en el contexto de la base de datos master
+USE master; -- AsegÃºrate de estar en el contexto de la base de datos master
 ALTER DATABASE base_consorcio
 SET RECOVERY FULL;
 
@@ -122,6 +122,10 @@ FROM DISK = 'C:\backup\logs\LogBackup2.trn'
 WITH RECOVERY;
 
 select * from gasto
+
+
+
+----- Implementacion de Transacciones y Transacciones Anidadas
 
 
 
