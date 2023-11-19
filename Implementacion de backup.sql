@@ -135,90 +135,44 @@ select * from gasto
 
 
 
------ Implementacion de Indices Columnares en SQL Server 
+----- Implementacion de Manejo de Permisos a nivel usuarios de bases de datos
 
 
 
---- Creacion de la tabla.
-Create table gastoNew	(
-						idgastoNew int identity,
-						idprovincia int,
-                         idlocalidad int,
-                         idconsorcio int, 
-					     periodo int,
-					     fechapago datetime,					     
-						 idtipogasto int,
-						 importe decimal (8,2),	
-					     Constraint PK_gastoNew PRIMARY KEY (idgastoNew),
-						 Constraint FK_gastoNew_consorcio FOREIGN KEY (idprovincia,idlocalidad,idconsorcio)  REFERENCES consorcio(idprovincia,idlocalidad,idconsorcio),
-						 Constraint FK_gastoNew_tipo FOREIGN KEY (idtipogasto)  REFERENCES tipogasto(idtipogasto)					     					     						 					     					     
-							)
 go
+create login manuel (ben) with password='Password123';
+create login juan (artur) with password='Password123';
 
+--Se crea los usuarios con los long in anteriores
+create user manuel for login manuel
+create user juan for login juan
+	
+--Se asignan los roles a los usuarios
+alter role db_datareader add member manuel
+alter role db_ddladmin add juan
 
---select * from gasto;
-
-
---CARGA DE UN MILLON DE REGISTROS
---INSERCION POR LOTES
-
--- select * from gastoNew;
-
-declare @tamanioLote int = 1000; -- Tamaño del lote
-declare @cont int = 1;     -- Contador de lotes
-
--- Inicia un bucle para la inserción por lotes
-while @cont <= 1000000 -- Cambia 1000 por el número de lotes necesarios para un millón de registros
+go
+-- Creamos el procedimiento insertarAdministrador
+create procedure insertarAdministrador
+@apeynom varchar(50),
+@viveahi varchar(1),
+@tel varchar(20),
+@s varchar(1),
+@nacimiento datetime
+as
 begin
-    insert into gastoNew (idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe)
-    select top (@tamanioLote) idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe
-    from gasto
-    where idgasto not in (select idgastoNew from gastoNew); -- Evita duplicados
+	insert into administrador(apeynom,viveahi,tel,sexo,fechnac)
+	values (@apeynom,@viveahi,@tel,@s,@nacimiento);
+end
 
-    set @cont = @cont + 1;
-end;
-
-
-
--- Declarar el tamaño del lote y el contador
-DECLARE @BatchSize INT = 1000; -- Tamaño del lote
-DECLARE @Counter INT = 1;     -- Contador de lotes
-
--- Iniciar un bucle para la inserción por lotes
-WHILE @Counter <= 1000000 -- Cambia 1000 al número de lotes necesarios para un millón de registros
-BEGIN
-    -- Insertar registros desde gasto a gastoNew en lotes
-    INSERT INTO gastoNew (idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe)
-    SELECT TOP (@BatchSize) idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe
-    FROM gasto
-    WHERE idgasto NOT IN (SELECT idgasto FROM gastoNew); -- Evitar duplicados
-
-    SET @Counter = @Counter + 1;
-END;
-
-insert into gastoNew (idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe)
-select idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe
-from gasto
-order by idgasto
-offset 0 rows
-fetch next 1000000 rows only; -- Ajusta el tamaño del lote según tus necesidades
-
-
-
-
-INSERT INTO gastoNew (idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe)
-SELECT idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe
-FROM (
-    SELECT idprovincia, idlocalidad, idconsorcio, periodo, fechapago, idtipogasto, importe,
-           ROW_NUMBER() OVER (ORDER BY idgasto) AS RowNumber
-    FROM gasto
-) AS Subquery
-WHERE RowNumber BETWEEN 1 AND 1000000;
-
-
-
---- Pruebas 
-
+-- Probar con manuel antes del permiso 
+--insert into administrador(apeynom,viveahi,tel,sexo,fechnac) values ('Oscar Alejandro','S','391281922','M','2001-08-14')
+--exec  insertarAdministrador 'Oscar Alejandro','S','3912819222','M','2001-08-14'
+grant execute on insertarAdministrador to manuel 
+	
+-- Probar despues de el permiso 
+--exec  insertarAdministrador 'Lezana mauricio','S','3912819222','M','2003-05-26'
+select * from administrador
 
 
 
