@@ -140,8 +140,8 @@ select * from gasto
 
 
 go
-create login manuel (ben) with password='Password123';
-create login juan (artur) with password='Password123';
+create login manuel with password='Password123';
+create login juan with password='Password123';
 
 --Se crea los usuarios con los long in anteriores
 create user manuel for login manuel
