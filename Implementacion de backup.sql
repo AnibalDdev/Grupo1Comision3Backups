@@ -171,7 +171,7 @@ end
 grant execute on insertarAdministrador to manuel 
 	
 -- Probar despues de el permiso 
---exec  insertarAdministrador 'Lezana mauricio','S','3912819222','M','2003-05-26'
+--exec  insertarAdministrador 'Oscar Alejandro','S','3912819222','M','2001-08-14'
 select * from administrador
 
 
