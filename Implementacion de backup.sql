@@ -125,59 +125,6 @@ select * from gasto
 
 
 
------ Implementacion de Transacciones y Transacciones Anidadas
-
-	
-
-
-
-
-
-
-
------ Implementacion de Manejo de Permisos a nivel usuarios de bases de datos
-
-
-
-go
-create login manuel with password='Password123';
-create login juan with password='Password123';
-
---Se crea los usuarios con los long in anteriores
-create user manuel for login manuel
-create user juan for login juan
-	
---Se asignan los roles a los usuarios
-alter role db_datareader add member manuel
-alter role db_ddladmin add juan
-
-go
--- Creamos el procedimiento insertarAdministrador
-create procedure insertarAdministrador
-@apeynom varchar(50),
-@viveahi varchar(1),
-@tel varchar(20),
-@s varchar(1),
-@nacimiento datetime
-as
-begin
-	insert into administrador(apeynom,viveahi,tel,sexo,fechnac)
-	values (@apeynom,@viveahi,@tel,@s,@nacimiento);
-end
-
--- Probar con manuel antes del permiso 
---insert into administrador(apeynom,viveahi,tel,sexo,fechnac) values ('Oscar Alejandro','S','391281922','M','2001-08-14')
---exec  insertarAdministrador 'Oscar Alejandro','S','3912819222','M','2001-08-14'
-grant execute on insertarAdministrador to manuel 
-	
--- Probar despues de el permiso 
---exec  insertarAdministrador 'Oscar Alejandro','S','3912819222','M','2001-08-14'
-select * from administrador
-
-
-
-
-
 
 
 
