@@ -136,10 +136,10 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		-- Si no existe la combinación de claves primarias, puedes manejarlo según tus necesidades.
+		-- Si no existe la combinaciÃ³n de claves primarias, puedes manejarlo segÃºn tus necesidades.
 		-- Puedes optar por no hacer nada, insertar un nuevo registro o lanzar un mensaje de error.
-		-- En este ejemplo, no se hace nada en caso de que no exista la combinación de claves primarias.
-		PRINT 'No se encontró el consorcio con las claves primarias proporcionadas.';
+		-- En este ejemplo, no se hace nada en caso de que no exista la combinaciÃ³n de claves primarias.
+		PRINT 'No se encontrÃ³ el consorcio con las claves primarias proporcionadas.';
 	END
 	
 END
