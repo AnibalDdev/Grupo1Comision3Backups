@@ -1,15 +1,15 @@
 /*
 
-Tema 4: Optimización de consultas a través de índices
+Tema 4: OptimizaciÃ³n de consultas a travÃ©s de Ã­ndices
 
 Tareas: 
-•	Crear un documento de acuerdo al modelo existente en el aula virtual.
-•	Realizar una carga masiva de por lo menos 1 millón de registro sobre la tabla gasto. 
+â€¢	Crear un documento de acuerdo al modelo existente en el aula virtual.
+â€¢	Realizar una carga masiva de por lo menos 1 millÃ³n de registro sobre la tabla gasto. 
   Se pueden repetir los registros ya existentes. Hacerlo con un script para poder compartirlo.
-•	Realizar una búsqueda por periodo, seleccionando los campos: fecha de pago y tipo de gasto 
-  (con la descripción correspondiente). Registrar el plan de ejecución utilizado por el motor y
+â€¢	Realizar una bÃºsqueda por periodo, seleccionando los campos: fecha de pago y tipo de gasto 
+  (con la descripciÃ³n correspondiente). Registrar el plan de ejecuciÃ³n utilizado por el motor y
   los tiempos de respuesta.
-•	Definir un índice agrupado sobre la columna periodo y repetir la consulta anterior. 
+â€¢	Definir un Ã­ndice agrupado sobre la columna periodo y repetir la consulta anterior. 
 
 */
 
@@ -19,7 +19,7 @@ SET STATISTICS IO ON;
 go;
 
 
--- Punto N° 1: Realizar una carga masiva de por lo menos 1 millón de registro sobre la tabla gasto. 
+-- Punto NÂ° 1: Realizar una carga masiva de por lo menos 1 millÃ³n de registro sobre la tabla gasto. 
 -- Se pueden repetir los registros ya existentes. Hacerlo con un script para poder compartirlo.
 
 -- Se ejecuta la carga masiva de datos
@@ -33,26 +33,28 @@ SELECT count(*) FROM [dbo].[gasto];
 
 -----------------------------------------------------------------------------------------------
 
--- Punto N° 2: Realizar una búsqueda por periodo, seleccionando los campos: fecha de pago y tipo de gasto 
--- (con la descripción correspondiente). Registrar el plan de ejecución utilizado por el motor y
+-- Punto NÂ° 2: Realizar una bÃºsqueda por periodo, seleccionando los campos: fecha de pago y tipo de gasto 
+-- (con la descripciÃ³n correspondiente). Registrar el plan de ejecuciÃ³n utilizado por el motor y
 -- los tiempos de respuesta.
 
 --Consulta: Gastos del periodo 8
 SELECT g.idgasto, g.periodo, g.fechapago, t.descripcion
 FROM gasto g
 INNER JOIN tipogasto t ON g.idtipogasto = t.idtipogasto
-WHERE g.periodo = 8;
--- TIEMPO DE RESPUESTA: 
+WHERE g.periodo = 8;
+
+-- TIEMPO DE RESPUESTA: 922ms 
 
 -----------------------------------------------------------------------------------------------
 
--- Punto N° 3: Definir un índice agrupado sobre la columna periodo y repetir la consulta anterior. 
+-- Punto NÂ° 3: Definir un Ã­ndice agrupado sobre la columna periodo y repetir la consulta anterior. 
 
 -- Como el indice CLUSTERED tomado por defecto por SQLServer es la PRIMARY KEY de la tabla gasto, primero 
 -- se debe debe eliminar dicha restriccion para asi poder crear el indice deseado
 
 ALTER TABLE gasto
-DROP CONSTRAINT PK_gasto;
+DROP CONSTRAINT PK_gasto;
+
 
 -- Se crea un nuevo indice CLUSTERED en periodo bajo el nombre de IC_gasto_periodo
 CREATE CLUSTERED INDEX IC_gasto_periodo
@@ -66,25 +68,26 @@ ON gasto (periodo);
 SELECT g.idgasto, g.periodo, g.fechapago, t.descripcion
 FROM gasto g
 INNER JOIN tipogasto t ON g.idtipogasto = t.idtipogasto
-WHERE g.periodo = 8;
--- TIEMPO DE RESPUESTA: 
+WHERE g.periodo = 8;
+
+-- TIEMPO DE RESPUESTA: 875ms
 
 -----------------------------------------------------------------------------------------------
 
--- Punto N° 4: Definir otro índice agrupado sobre la columna periodo pero que además incluya las columnas:
+-- Punto NÂ° 4: Definir otro Ã­ndice agrupado sobre la columna periodo pero que ademÃ¡s incluya las columnas:
 -- Fecha de pago y tipo de gasto y repetir la consulta anterior. 
 
--- Nuevamente, se elimina el índice agrupado anterior
+-- Nuevamente, se elimina el Ã­ndice agrupado anterior
 DROP INDEX IC_gasto_periodo ON gasto;
 go;
 
--- Se crea un nuevo índice agrupado con periodo, fechapago e idtipogasto
+-- Se crea un nuevo Ã­ndice agrupado con periodo, fechapago e idtipogasto
 
 CREATE CLUSTERED INDEX IC_Gasto_Periodo_FechaPago_idTipoGasto
 ON gasto (periodo, fechapago, idtipogasto);
 go;
 
--- Se repite la consulta para poder ver los resultados obtenidos al ejecutar tras la creación del
+-- Se repite la consulta para poder ver los resultados obtenidos al ejecutar tras la creaciÃ³n del
 -- nuevo indice agrupado.
 
 SELECT g.idgasto, g.periodo, g.fechapago, t.descripcion
@@ -92,4 +95,4 @@ FROM gasto g
 INNER JOIN tipogasto t ON g.idtipogasto = t.idtipogasto
 WHERE g.periodo = 8;
 
--- TIEMPO DE RESPUESTA: 
+-- TIEMPO DE RESPUESTA: 1062ms
